@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Grandstander&family=Varela+Round&family=Ephesis&family=Lato:ital,wght@0,400;1,100&family=Vina+Sans&display=swap">
+
+    <title>Startup Page</title>
+    <style>
+        @font-face {
+            font-family: 'The Last Shuriken Regular';
+            font-style: normal;
+            font-weight: normal;
+            src: local('The Last Shuriken Regular'), url('ThelastshurikenRegular-JRdnB.woff') format('woff');
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            cursor: none;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            overflow: hidden;
+            margin-left: 25px;
+            margin-top: -290px;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-image: url('dev.png'); /* Replace with your image path or URL */
+            filter: brightness(1) blur(1.0px);
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .genie-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            z-index: -1;
+            transform-origin: bottom center;
+            transition: transform 0.3s, opacity 0.3s;
+            transform: scaleY(0);
+            opacity: 0;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            border-radius: 25px; /* Set border-radius to 25px for all sides */
+            overflow: hidden;
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        .search-bar.small {
+            position: relative;
+            transition: width 0.3s ease, height 0.3s ease, padding 0.3s ease;
+        }
+
+        .search-bar.wide {
+            width: 400px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            height: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            border: 1px solid #dddddd33;
+            border-radius: 25px; /* Set border-radius to 25px for all sides */
+            outline: none;
+            padding-left: 50px;
+            position: relative;
+        }
+
+        .search-bar input:hover,
+        .search-bar input:focus {
+            border-color: rgb(255, 0, 0);
+            box-shadow: 0 0 25px rgb(255, 38, 0);
+        }
+
+        .search-bar button {
+            height: 100%;
+            width: 30%;
+            margin-left: 10px;
+            background-color: rgb(255, 47, 0);
+            color: #fffefe;
+            font-size: 18px;
+            border: none;
+            cursor: none;
+            border-radius: 2px 2px 2px 2px;
+        }
+
+        .cursor {
+            cursor: url('cursor.png'), auto;
+        }
+
+        .search-bar input::before {
+            content: url('https://www.freeiconspng.com/thumbs/search-icon-png/search-icon-png-21.png') no-repeat center center fixed;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+        }
+
+        .my-element {
+            cursor: none;
+        }
+
+        .search-bar button:hover {
+            box-shadow: 0 0 25px rgb(255, 68, 0);
+        }
+
+        .shortcuts {
+            display: flex;
+            margin-top: 115px;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            margin-bottom: 30px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .shortcut {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            position: relative;
+            cursor: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .shortcut img {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+        }
+
+        .shortcut-label {
+            font-size: 0px;
+            margin-top: 0px;
+            position: absolute;
+            top: 50%;
+            right: calc(100% + 10px);
+            transform: translateY(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s, right 0.3s;
+        }
+
+        .shortcut:hover {
+            transform: translateY(-10px) scale(1.2);
+        }
+
+        .shortcut:hover .genie-effect {
+            transform: scaleY(1);
+            opacity: 1;
+        }
+
+        .shortcut:hover .shortcut-label {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 1;
+            right: calc(100% + 20px);
+        }
+
+        .time-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .date {
+            font-size: 30px;
+            font-style: bold;
+            font-family: 'Aoboshi One', serif;
+            background: radial-gradient(linear, rgb(248, 0, 0));
+            border-radius: 50%;
+            animation: flicker 1s infinite;
+            margin-bottom: 5px;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: glow 1s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                color: #ff0000;
+                text-shadow: 0 0 255px #ff0000;
+            }
+
+            to {
+                color: #ff4d00;
+                text-shadow: 0 0 255px #8000ff;
+            }
+        }
+
+        .time {
+            margin-bottom: 5px;
+            font-family: 'Aoboshi One', serif;
+            font-size: 18px;
+        }
+
+        .hello-text {
+            font-family: 'The Last Shuriken Regular', normal;
+            font-size: 50px;
+            text-shadow: #fff;
+            stroke: black;
+            stroke-width: 2px;
+            margin-bottom: 25px;
+        }
+
+        .torch {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, rgba(158, 158, 158, 0.578), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: screen;
+            animation: flicker 1s infinite;
+        }
+
+        @keyframes flicker {
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-container"></div>
+    <div class="container">
+        <div class="torch" id="torch"></div>
+        <div class="shortcuts">
+            <div id="git" class="shortcut" onclick="window.open('https://github.com/aditya-ig10', '_blank')" onmouseover="showGenie(this)" onmouseout="hideGenie(this)">
+                <img src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png" alt="Github">
+                <div class="shortcut-label">GitHub</div>
+                <div class="genie-effect"></div>
+            </div>
+            <div id="srm" class="shortcut" onclick="window.open('https://sp.srmist.edu.in/srmiststudentportal/students/loginManager/youLogin.jsp', '_blank')" onmouseover="showGenie(this)" onmouseout="hideGenie(this)">
+                <img src="https://upload.wikimedia.org/wikipedia/en/f/fe/Srmseal.png" alt="StudentPortal">
+                <div class="shortcut-label">Student Portal</div>
+                <div class="genie-effect"></div>
+            </div>
+            <div id="yt" class="shortcut" onclick="window.open('https://www.youtube.com', '_blank')" onmouseover="showGenie(this)" onmouseout="hideGenie(this)">
+                <img src="https://cdn-icons-png.flaticon.com/256/1384/1384060.png" alt="YouTube">
+                <div class="shortcut-label">YouTube</div>
+                <div class="genie-effect"></div>
+            </div>
+            <div id="gg" class="shortcut" onclick="openGoogle()" onmouseover="showGenie(this)" onmouseout="hideGenie(this)">
+                <img src="https://cdn.iconscout.com/icon/free/png-512/free-google-152-189813.png?f=webp&w=512" alt="Google">
+                <div class="shortcut-label">Google</div>
+                <div class="genie-effect"></div>
+            </div>
+            <div id="cg" class="shortcut" onclick="window.open('https://chat.openai.com/', '_blank')" onmouseover="showGenie(this)" onmouseout="hideGenie(this)">
+                <img src="https://static.vecteezy.com/system/resources/previews/022/227/365/non_2x/openai-chatgpt-logo-icon-free-png.png" alt="Chat GPT">
+                <div class="shortcut-label">Chat GPT</div>
+                <div class="genie-effect"></div>
+            </div>
+            <div id="StackOverflow" class="shortcut" onclick="openSO()" onmouseover="showGenie(this)" onmouseout="hideGenie(this)">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Stack_Overflow_icon.svg/768px-Stack_Overflow_icon.svg.png" alt="Example1">
+                <div class="shortcut-label">Stack Overflow</div>
+                <div class="genie-effect"></div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Start Browsing the Web!" onkeypress="handleSearchInput(event)">
+            <button onclick="search()">Search</button>
+        </div>
+
+        <div class="hello-text">Hello Aditya!</div>
+
+        <div class="time-container">
+            <div class="date" id="weekday">///</div>
+            <div class="time" id="time"></div>
+        </div>
+    </div>
+
+    
+    <script>
+    const searchBar = document.querySelector('.search-bar');
+
+    searchBar.addEventListener('mouseenter', () => {
+        searchBar.classList.add('wide');
+    });
+
+    searchBar.addEventListener('mouseleave', () => {
+        searchBar.classList.remove('wide');
+    });
+
+    function search() {
+        var query = document.getElementById('searchInput').value;
+        window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+    }
+
+    function handleSearchInput(event) {
+        if (event.key === "Enter") {
+            search();
+        }
+    }
+
+    function showGenie(shortcut) {
+        const genieEffect = shortcut.querySelector('.genie-effect');
+        genieEffect.style.transform = 'scaleY(1)';
+        genieEffect.style.opacity = '1';
+    }
+
+    function hideGenie(shortcut) {
+        const genieEffect = shortcut.querySelector('.genie-effect');
+        genieEffect.style.transform = 'scaleY(0)';
+        genieEffect.style.opacity = '0';
+    }
+
+    function updateTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var timeString = hours + ':' + (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+        var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var weekday = weekdays[now.getDay()];
+
+        document.getElementById('time').innerText = timeString;
+        document.getElementById('weekday').innerText = 'it\'s ' + weekday;
+    }
+
+    function activateShortcuts() {
+        var shortcuts = document.querySelectorAll('.shortcut');
+        shortcuts.forEach(function (shortcut) {
+            shortcut.classList.add('active');
+        });
+    }
+
+    function deactivateShortcuts() {
+        var shortcuts = document.querySelectorAll('.shortcut');
+        shortcuts.forEach(function (shortcut) {
+            shortcut.classList.remove('active');
+        });
+    }
+
+    setInterval(updateTime, 1000); // Update time every second
+    updateTime();
+
+    const torch = document.getElementById('torch');
+    document.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        torch.style.left = `${clientX}px`;
+        torch.style.top = `${clientY}px`;
+    });
+</script>
+</body>
+</html>
